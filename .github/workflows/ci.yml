@@ -25,7 +25,7 @@ jobs:
           curl -LJO https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.0/checkstyle-10.12.0-all.jar
 
       - name: Run Checkstyle
-        run: java -jar checkstyle-10.12.0-all.jar -c /google_checks.xml src/main/java/App.java
+        run: java -jar checkstyle-10.12.0-all.jar -c /google_checks.xml ./src/main/java/com/example/App.java
 
   test:
     name: Run Unit Tests
