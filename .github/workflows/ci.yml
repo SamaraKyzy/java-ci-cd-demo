@@ -1,0 +1,53 @@
+name: Java CI/CD Demo Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint Java Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Checkstyle
+        run: |
+          curl -LJO https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.0/checkstyle-10.12.0-all.jar
+
+      - name: Run Checkstyle
+        run: java -jar checkstyle-10.12.0-all.jar -c /google_checks.xml src/main/java/App.java
+
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Maven Tests
+        run: mvn test
+
+  deploy:
+    name: Simulate Deployment
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Deployment Simulation
+        run: echo "Deployment successful!"
+
